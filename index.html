@@ -252,7 +252,7 @@
         document.getElementById("recordID").value = "";
 
         let sign = prompt("Enter record id");
-        fetch("http://localhost:3000/posts/" + sign, {
+        fetch(document.getElementById("endpoint").value + sign, {
           method: "delete",
         })
           .then(function (response) {
