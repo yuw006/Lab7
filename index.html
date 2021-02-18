@@ -81,7 +81,7 @@
         document.getElementById("author").value = "";
         document.getElementById("recordID").value = "";
 
-        fetch("http://localhost:3000/posts")
+        fetch(document.getElementById("endpoint").value)
           .then(function (response) {
             if (!response.ok) {
               console.log(
@@ -116,7 +116,7 @@
         document.getElementById("recordID").value = "";
 
         let sign = prompt("Enter record id");
-        fetch("http://localhost:3000/posts/" + sign)
+        fetch(document.getElementById("endpoint").value + sign)
           .then(function (response) {
             if (!response.ok) {
               document.getElementById("output").innerHTML =
@@ -148,12 +148,12 @@
         // TODO
         if (input == "show") {
           document.getElementById("title").value = "";
-        document.getElementById("author").value = "";
-        document.getElementById("recordID").value = "";
+          document.getElementById("author").value = "";
+          document.getElementById("recordID").value = "";
           document.getElementById("recordForm").style = "display: block;";
           document.getElementById("recordIDcontainer").style = "display: none;";
         } else {
-          fetch("http://localhost:3000/posts/", {
+          fetch(document.getElementById("endpoint").value, {
             method: "post",
             headers: {
               "Content-type":
@@ -193,14 +193,14 @@
 
         if (input == "show") {
           document.getElementById("title").value = "";
-        document.getElementById("author").value = "";
-        document.getElementById("recordID").value = "";
+          document.getElementById("author").value = "";
+          document.getElementById("recordID").value = "";
           document.getElementById("recordForm").style = "display: block;";
           document.getElementById("recordIDcontainer").style =
             "display: block;";
         } else {
           fetch(
-            "http://localhost:3000/posts/" +
+            document.getElementById("endpoint").value +
               document.getElementById("recordID").value,
             {
               method: "put",
@@ -217,21 +217,24 @@
                 "&id=" +
                 document.getElementById("recordID").value,
             }
-          ).then(function (response) {
-          if (!response.ok) {
-              document.getElementById("output").innerHTML =
-                "Network Error:" + response.status;
-              return;
-            }
-          // Examine the text in the response
-          response.json().then(function (data) {
-            //console.log(data);
-            document.getElementById("output").innerHTML = JSON.stringify(data);
-          });
-        })
-        .catch(function (err) {
-            console.log("Fetch Error :-S", err);
-          });
+          )
+            .then(function (response) {
+              if (!response.ok) {
+                document.getElementById("output").innerHTML =
+                  "Network Error:" + response.status;
+                return;
+              }
+              // Examine the text in the response
+              response.json().then(function (data) {
+                //console.log(data);
+                document.getElementById("output").innerHTML = JSON.stringify(
+                  data
+                );
+              });
+            })
+            .catch(function (err) {
+              console.log("Fetch Error :-S", err);
+            });
         }
         // TODO
       }
@@ -251,19 +254,22 @@
         let sign = prompt("Enter record id");
         fetch("http://localhost:3000/posts/" + sign, {
           method: "delete",
-        }).then(function (response) {
-          if (!response.ok) {
+        })
+          .then(function (response) {
+            if (!response.ok) {
               document.getElementById("output").innerHTML =
                 "Network Error:" + response.status;
               return;
             }
-          // Examine the text in the response
-          response.json().then(function (data) {
-            //console.log(data);
-            document.getElementById("output").innerHTML = JSON.stringify(data);
-          });
-        })
-        .catch(function (err) {
+            // Examine the text in the response
+            response.json().then(function (data) {
+              //console.log(data);
+              document.getElementById("output").innerHTML = JSON.stringify(
+                data
+              );
+            });
+          })
+          .catch(function (err) {
             console.log("Fetch Error :-S", err);
           });
         // TODO
