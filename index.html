@@ -84,19 +84,20 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
-        fetch('./db.json')
-  .then(
-    function(response) {
-      if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-          response.status);
-        return;
-      }
+        fetch('http://localhost:3000/posts')
+          .then(
+            function(response) {
+              if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +
+                  response.status);
+                return;
+              }
 
-      // Examine the text in the response
-      response.json().then(function(data) {
-        console.log(data);
-      });
+              // Examine the text in the response
+              response.json().then(function(data) {
+                //console.log(data);
+                document.getElementById('output').innerHTML = JSON.stringify(data);
+              });
     }
   )
   .catch(function(err) {
