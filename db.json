@@ -6,19 +6,9 @@
       "author": "typicode"
     },
     {
-      "title": "pod",
-      "author": "octo",
-      "id": 4
-    },
-    {
       "title": "two",
       "author": "one",
       "id": 6
-    },
-    {
-      "title": "ever",
-      "author": "what",
-      "id": 7
     },
     {
       "title": "world",
@@ -34,6 +24,21 @@
       "title": "rolls",
       "author": "spring",
       "id": 10
+    },
+    {
+      "title": "bezos",
+      "author": "amazon",
+      "id": 11
+    },
+    {
+      "title": "",
+      "author": "",
+      "id": 12
+    },
+    {
+      "title": "bear12",
+      "author": "teddy12",
+      "id": 13
     }
   ],
   "comments": [

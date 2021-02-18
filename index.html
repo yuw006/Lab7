@@ -83,7 +83,7 @@
 
         fetch("http://localhost:3000/posts")
           .then(function (response) {
-            if (response.status !== 200) {
+            if (!response.ok) {
               console.log(
                 "Looks like there was a problem. Status Code: " +
                   response.status
@@ -118,7 +118,7 @@
         let sign = prompt("Enter record id");
         fetch("http://localhost:3000/posts/" + sign)
           .then(function (response) {
-            if (response.status !== 200) {
+            if (!response.ok) {
               document.getElementById("output").innerHTML =
                 "Network Error:" + response.status;
               return;
@@ -144,8 +144,12 @@
       // the writeup to view the URL pattern for create and update
       function createRecord(input) {
         //we added an input
+
         // TODO
         if (input == "show") {
+          document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("recordID").value = "";
           document.getElementById("recordForm").style = "display: block;";
           document.getElementById("recordIDcontainer").style = "display: none;";
         } else {
@@ -163,7 +167,7 @@
               document.getElementById("author").value,
           }).then(function (response) {
             //maybe delete this
-            if (response.status !== 201) {
+            if (!response.ok) {
               document.getElementById("output").innerHTML =
                 "Network Error:" + response.status;
               return;
@@ -177,15 +181,6 @@
               );
             });
           });
-          /*.then( function (response){
-              response.json.then(function (data) {
-                document.getElementById("output").innerHTML=JSON.stringify(data);
-              })
-            })
-            
-            .catch(function (error) {
-              document.getElementById("output").innerHTML = "Network error: " + JSON.stringify(error);
-            });*/
         }
       }
 
@@ -195,7 +190,11 @@
       // the writeup to view the URL pattern for create and update
       function updateRecord(input) {
         //added input
+
         if (input == "show") {
+          document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("recordID").value = "";
           document.getElementById("recordForm").style = "display: block;";
           document.getElementById("recordIDcontainer").style =
             "display: block;";
@@ -218,14 +217,21 @@
                 "&id=" +
                 document.getElementById("recordID").value,
             }
-          );
-          /*  .then(json)
-            .then(function (data) {
-              console.log("Request succeeded with JSON response", data);
-            })
-            .catch(function (error) {
-              console.log("Request failed", error);
-            });*/
+          ).then(function (response) {
+          if (!response.ok) {
+              document.getElementById("output").innerHTML =
+                "Network Error:" + response.status;
+              return;
+            }
+          // Examine the text in the response
+          response.json().then(function (data) {
+            //console.log(data);
+            document.getElementById("output").innerHTML = JSON.stringify(data);
+          });
+        })
+        .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+          });
         }
         // TODO
       }
@@ -236,6 +242,12 @@
       // request; check the writeup to view the URL pattern for get one and delete. THERE IS NO
       // delete all, only delete one.
       function deleteRecord() {
+        document.getElementById("recordForm").style = "display: none;";
+        document.getElementById("recordIDcontainer").style = "display: none;";
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("recordID").value = "";
+
         let sign = prompt("Enter record id");
         fetch("http://localhost:3000/posts/" + sign, {
           method: "delete",
