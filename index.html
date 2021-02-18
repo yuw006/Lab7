@@ -104,13 +104,11 @@
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
         let sign = prompt("Enter record id");
-        fetch("http://localhost:3000/posts/"+sign)
+        fetch("http://localhost:3000/posts/" + sign)
           .then(function (response) {
             if (response.status !== 200) {
-              console.log(
-                "Looks like there was a problem. Status Code: " +
-                  response.status
-              );
+              document.getElementById("output").innerHTML =
+                "Network Error:" + response.status;
               return;
             }
 
