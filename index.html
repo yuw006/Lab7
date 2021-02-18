@@ -24,9 +24,8 @@
     <h1>Endpoint Tester</h1>
 
     <form id="actionForm">
-
       <label for="endpoint">Endpoint:</label>
-      <input type="text" value="http://localhost:3000/posts" id="endpoint">
+      <input type="text" value="http://localhost:3000/posts" id="endpoint" />
       <br />
 
       <label for="action">Action:</label>
@@ -50,20 +49,12 @@
 
       <div>
         <label for="title">Title: </label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-        />
+        <input type="text" name="title" id="title" />
       </div>
 
       <div id="recordIDcontainer">
         <label for="recordID">Record ID: </label>
-        <input
-          type="recordID"
-          name="recordID"
-          id="recordID"
-        />
+        <input type="recordID" name="recordID" id="recordID" />
       </div>
 
       <div>
@@ -84,25 +75,27 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
-        fetch('http://localhost:3000/posts')
-          .then(
-            function(response) {
-              if (response.status !== 200) {
-                console.log('Looks like there was a problem. Status Code: ' +
-                  response.status);
-                return;
-              }
+        fetch("http://localhost:3000/posts")
+          .then(function (response) {
+            if (response.status !== 200) {
+              console.log(
+                "Looks like there was a problem. Status Code: " +
+                  response.status
+              );
+              return;
+            }
 
-              // Examine the text in the response
-              response.json().then(function(data) {
-                //console.log(data);
-                document.getElementById('output').innerHTML = JSON.stringify(data);
-              });
-    }
-  )
-  .catch(function(err) {
-    console.log('Fetch Error :-S', err);
-  });
+            // Examine the text in the response
+            response.json().then(function (data) {
+              //console.log(data);
+              document.getElementById("output").innerHTML = JSON.stringify(
+                data
+              );
+            });
+          })
+          .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+          });
       }
 
       // This function should fetch one entry from the given endpoint.
@@ -110,6 +103,28 @@
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
+        let sign = prompt("Enter record id");
+        fetch("http://localhost:3000/posts/"+sign)
+          .then(function (response) {
+            if (response.status !== 200) {
+              console.log(
+                "Looks like there was a problem. Status Code: " +
+                  response.status
+              );
+              return;
+            }
+
+            // Examine the text in the response
+            response.json().then(function (data) {
+              //console.log(data);
+              document.getElementById("output").innerHTML = JSON.stringify(
+                data
+              );
+            });
+          })
+          .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+          });
         // TODO
       }
 
@@ -120,19 +135,19 @@
       function createRecord() {
         // TODO
         fetch(url, {
-    method: 'post',
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-    },
-    body: 'foo=bar&lorem=ipsum'
-  })
-  .then(json)
-  .then(function (data) {
-    console.log('Request succeeded with JSON response', data);
-  })
-  .catch(function (error) {
-    console.log('Request failed', error);
-  });
+          method: "post",
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          },
+          body: "foo=bar&lorem=ipsum",
+        })
+          .then(json)
+          .then(function (data) {
+            console.log("Request succeeded with JSON response", data);
+          })
+          .catch(function (error) {
+            console.log("Request failed", error);
+          });
       }
 
       // This function should use fetch to update one existing entry in the given endpoint.
@@ -146,19 +161,19 @@
       // This function should use fetch to delete one existing entry in the given endpoint.
       // From the 4 CRUD actions, this is the DELETE action, and uses the DELETE http method.
       // The main difference from fetchOne() will be the HTTP method you use to make your
-      // request; check the writeup to view the URL pattern for get one and delete. THERE IS NO 
+      // request; check the writeup to view the URL pattern for get one and delete. THERE IS NO
       // delete all, only delete one.
       function deleteRecord() {
         // TODO
       }
 
-      window.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener("DOMContentLoaded", () => {
         // Action Form Event Listener
         document
           .getElementById("actionForm")
-          .addEventListener("submit", event => {
+          .addEventListener("submit", (event) => {
             event.preventDefault();
-            let command = document.getElementById('action').value;
+            let command = document.getElementById("action").value;
 
             switch (command) {
               case "List All":
@@ -168,10 +183,10 @@
                 fetchOne();
                 break;
               case "Create":
-                createRecord('show');
+                createRecord("show");
                 break;
               case "Update":
-                updateRecord('show');
+                updateRecord("show");
                 break;
               case "Delete":
                 deleteRecord();
@@ -184,16 +199,16 @@
         // Record Form Event Listener
         document
           .getElementById("recordForm")
-          .addEventListener("submit", event => {
+          .addEventListener("submit", (event) => {
             event.preventDefault();
-            let command = document.getElementById('action').value;
-            
+            let command = document.getElementById("action").value;
+
             switch (command) {
               case "Create":
-                createRecord('submit');
+                createRecord("submit");
                 break;
               case "Update":
-                updateRecord('submit');
+                updateRecord("submit");
                 break;
               default:
                 alert("Error: Illegal Action");
