@@ -75,6 +75,12 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
+        document.getElementById("recordForm").style = "display: none;";
+        document.getElementById("recordIDcontainer").style = "display: none;";
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("recordID").value = "";
+
         fetch("http://localhost:3000/posts")
           .then(function (response) {
             if (response.status !== 200) {
@@ -103,6 +109,12 @@
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
+        document.getElementById("recordForm").style = "display: none;";
+        document.getElementById("recordIDcontainer").style = "display: none;";
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("recordID").value = "";
+
         let sign = prompt("Enter record id");
         fetch("http://localhost:3000/posts/" + sign)
           .then(function (response) {
@@ -130,29 +142,91 @@
       // From the 4 CRUD actions, this is the CREATE action, and uses the POST http method.
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function createRecord() {
+      function createRecord(input) {
+        //we added an input
         // TODO
-        fetch(url, {
-          method: "post",
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-          },
-          body: "foo=bar&lorem=ipsum",
-        })
-          .then(json)
-          .then(function (data) {
-            console.log("Request succeeded with JSON response", data);
-          })
-          .catch(function (error) {
-            console.log("Request failed", error);
+        if (input == "show") {
+          document.getElementById("recordForm").style = "display: block;";
+          document.getElementById("recordIDcontainer").style = "display: none;";
+        } else {
+          fetch("http://localhost:3000/posts/", {
+            method: "post",
+            headers: {
+              "Content-type":
+                "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+
+            body:
+              "title=" +
+              document.getElementById("title").value +
+              "&author=" +
+              document.getElementById("author").value,
+          }).then(function (response) {
+            //maybe delete this
+            if (response.status !== 201) {
+              document.getElementById("output").innerHTML =
+                "Network Error:" + response.status;
+              return;
+            }
+
+            // Examine the text in the response
+            response.json().then(function (data) {
+              //console.log(data);
+              document.getElementById("output").innerHTML = JSON.stringify(
+                data
+              );
+            });
           });
+          /*.then( function (response){
+              response.json.then(function (data) {
+                document.getElementById("output").innerHTML=JSON.stringify(data);
+              })
+            })
+            
+            .catch(function (error) {
+              document.getElementById("output").innerHTML = "Network error: " + JSON.stringify(error);
+            });*/
+        }
       }
 
       // This function should use fetch to update one existing entry in the given endpoint.
       // From the 4 CRUD actions, this is the UPDATE action, and uses the PUT http method.
       // The main difference from createRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function updateRecord() {
+      function updateRecord(input) {
+        //added input
+        if (input == "show") {
+          document.getElementById("recordForm").style = "display: block;";
+          document.getElementById("recordIDcontainer").style =
+            "display: block;";
+        } else {
+          fetch(
+            "http://localhost:3000/posts/" +
+              document.getElementById("recordID").value,
+            {
+              method: "put",
+              headers: {
+                "Content-type":
+                  "application/x-www-form-urlencoded; charset=UTF-8",
+              },
+
+              body:
+                "title=" +
+                document.getElementById("title").value +
+                "&author=" +
+                document.getElementById("author").value +
+                "&id=" +
+                document.getElementById("recordID").value,
+            }
+          );
+          /*  .then(json)
+            .then(function (data) {
+              console.log("Request succeeded with JSON response", data);
+            })
+            .catch(function (error) {
+              console.log("Request failed", error);
+            });*/
+        }
         // TODO
       }
 
@@ -162,6 +236,24 @@
       // request; check the writeup to view the URL pattern for get one and delete. THERE IS NO
       // delete all, only delete one.
       function deleteRecord() {
+        let sign = prompt("Enter record id");
+        fetch("http://localhost:3000/posts/" + sign, {
+          method: "delete",
+        }).then(function (response) {
+          if (!response.ok) {
+              document.getElementById("output").innerHTML =
+                "Network Error:" + response.status;
+              return;
+            }
+          // Examine the text in the response
+          response.json().then(function (data) {
+            //console.log(data);
+            document.getElementById("output").innerHTML = JSON.stringify(data);
+          });
+        })
+        .catch(function (err) {
+            console.log("Fetch Error :-S", err);
+          });
         // TODO
       }
 
